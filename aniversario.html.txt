@@ -1,0 +1,663 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Nuestro primer año: el día que empezó nuestra verdadera historia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      background:
+        radial-gradient(circle at top left, #ff7ac4 0, transparent 55%),
+        radial-gradient(circle at bottom right, #6aa7ff 0, #050616 55%);
+      color: #f5f5f7;
+      line-height: 1.7;
+      scroll-behavior: smooth;
+    }
+
+    a {
+      color: #ffb2e3;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .hero {
+      min-height: 75vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem 1.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(255,255,255,0.09), transparent 60%);
+      mix-blend-mode: screen;
+      opacity: 0.6;
+    }
+
+    .hero-content {
+      position: relative;
+      max-width: 900px;
+      z-index: 1;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(3,7,18,0.6);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 1rem;
+      backdrop-filter: blur(16px);
+    }
+
+    .heart {
+      width: 10px;
+      height: 10px;
+      background: #ff4c84;
+      transform: rotate(45deg);
+      position: relative;
+      animation: beat 1.4s infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #ff4c84;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      left: -5px;
+      top: 0;
+    }
+    .heart::after {
+      top: -5px;
+      left: 0;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: rotate(45deg) scale(1); }
+      30% { transform: rotate(45deg) scale(1.25); }
+      60% { transform: rotate(45deg) scale(1.07); }
+    }
+
+    h1.hero-title {
+      font-size: clamp(1.9rem, 4vw, 2.5rem);
+      margin-bottom: 0.7rem;
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      color: #e1e2ee;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .hero-meta {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: #c3c6dd;
+    }
+
+    .main-wrapper {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.2rem 3rem;
+    }
+
+    .card {
+      background: rgba(3, 7, 18, 0.88);
+      border-radius: 24px;
+      padding: 1.8rem 1.4rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow:
+        0 22px 50px rgba(0,0,0,0.65),
+        0 0 0 1px rgba(255,255,255,0.02);
+      backdrop-filter: blur(22px);
+    }
+
+    @media (min-width: 900px) {
+      .card {
+        padding: 2.4rem 2.1rem;
+      }
+    }
+
+    .cuento-title {
+      font-size: 1.2rem;
+      margin-bottom: 1.2rem;
+      text-align: center;
+    }
+
+    .cuento-text {
+      white-space: pre-wrap;
+      font-size: 0.95rem;
+      color: #f7f7fb;
+    }
+
+    .divider {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #ff9fd6, transparent);
+      margin: 1.8rem auto;
+      opacity: 0.8;
+    }
+
+    .gallery-title {
+      text-align: center;
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+      color: #e7e8ff;
+    }
+
+    .gallery-sub {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #c3c6dd;
+      margin-bottom: 1.8rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.2rem;
+    }
+
+    @media (min-width: 720px) {
+      .gallery-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .photo-card {
+      position: relative;
+      border-radius: 18px;
+      overflow: hidden;
+      background: radial-gradient(circle at top, rgba(255,255,255,0.12), rgba(10,10,18,0.95));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.8);
+      cursor: pointer;
+      transform-origin: center;
+      transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease,
+        border-color 0.4s ease;
+    }
+
+    .photo-inner {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .photo-card img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      transform: scale(1.04);
+      transition: transform 0.55s ease;
+    }
+
+    .photo-label {
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.75rem;
+      border-radius: 999px;
+      background: rgba(3,7,18,0.75);
+      border: 1px solid rgba(255,255,255,0.16);
+      backdrop-filter: blur(10px);
+    }
+
+    .photo-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow:
+        0 26px 55px rgba(0,0,0,0.95),
+        0 0 0 1px rgba(255,255,255,0.04);
+      border-color: rgba(255,159,214,0.7);
+    }
+
+    .photo-card:hover img {
+      transform: scale(1.09);
+    }
+
+    .photo-glow {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at top, rgba(255,255,255,0.2), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      mix-blend-mode: screen;
+    }
+
+    .photo-card:hover .photo-glow {
+      opacity: 0.6;
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+    }
+
+    .fade-in.delay-1 { transition-delay: 0.08s; }
+    .fade-in.delay-2 { transition-delay: 0.16s; }
+    .fade-in.delay-3 { transition-delay: 0.24s; }
+    .fade-in.delay-4 { transition-delay: 0.32s; }
+    .fade-in.delay-5 { transition-delay: 0.4s; }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.78rem;
+      color: #a7aac6;
+      padding: 1.8rem 1rem 2.4rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-content fade-in">
+      <div class="tag">
+        <span class="heart"></span>
+        <span>Nuestro primer aniversario</span>
+      </div>
+      <h1 class="hero-title">Nuestro primer año: el día que empezó nuestra verdadera historia</h1>
+      <p class="hero-subtitle">
+        Un pequeño libro digital para recordar todo lo que hemos vivido desde que dijimos
+        “sí” hasta hoy. Este cuento está escrito solo para nosotros. 💍
+      </p>
+      <p class="hero-meta">Nicolás &amp; Salomé · 5 de diciembre de 2024</p>
+    </div>
+  </header>
+
+  <main class="main-wrapper">
+
+    <section class="card fade-in delay-1" id="cuento">
+      <h2 class="cuento-title">📖 Nuestro primer año: el día que empezó nuestra verdadera historia</h2>
+      <div class="divider"></div>
+
+      <div class="cuento-text">
+📖 Nuestro primer año: el día que empezó nuestra verdadera historia
+
+⸻
+
+🌿 Capítulo 1: El día que dijimos “sí”
+
+5 de diciembre de 2024
+
+Ese día yo estaba nervioso… pero no era un nervio cualquiera. Era ese nervio que se siente cuando sabes que tu vida está a punto de cambiar para siempre. Estaba emocionado, asustado, feliz, temblando por dentro… todo al mismo tiempo.
+
+Y entonces te vi.
+
+Vestida de blanco. Hermosa de una manera que todavía hoy me cuesta explicar con palabras. Cuando levanté la mirada y te vi frente a mí, solo pude pensar una cosa:
+“Wow… esta mujer va a estar conmigo el resto de mi vida.”
+
+Todavía recuerdo mi pierna coja por el tatuaje, esa pata estirada que parecía tiesa cuando me sentaba, y cómo aun así todo parecía perfecto. Luego vinieron tus palabras… esas que me dedicaste ese día y que quedaron grabadas para siempre en mi corazón. Nuestra promesa de cuidarnos, respetarnos y estar juntos para siempre.
+
+Ese fue el comienzo real de nuestra historia.
+(<a href="#foto1">Foto 1</a>)
+
+⸻
+
+✈️ Capítulo 2: La decisión que nos cambió la vida
+
+Después de la boda nos preparamos para una de las decisiones más grandes que hemos tomado juntos: irnos a vivir a Estados Unidos. Lo planeamos como una mezcla de luna de miel con aventura, sin imaginar todo lo que ese viaje nos iba a regalar.
+
+Antes de partir, pasamos por un momento que parece pequeño, pero que hoy es un recuerdo gigante: juntar por primera vez a Romeo y Spike. Romeo, siempre el más agresivo, tratando de atacar a Ponqui…
+(<a href="#foto2">Foto 2</a>)
+
+⸻
+
+🧳 Capítulo 3: El viaje, el miedo y el comienzo
+
+Llegó el día del viaje. Ya nos habíamos despedido de todos. Estábamos tirados en el suelo descansando mi pierna coja, otra vez siendo protagonista de la historia.
+(<a href="#foto3">Foto 3</a>)
+
+Fue un viaje largo. Muy largo. Pero todo salió bien. Logramos entrar al país, aunque íbamos llenos de susto. Recuerdo todavía cuando un perro del aeropuerto se me acercó a oler y yo pensé:
+“Nos arrestaron.”
+
+Pero no. Todo siguió… y ahí empezó nuestra nueva vida.
+
+⸻
+
+🌴 Capítulo 4: Los Ángeles, maruchan y sueños
+
+Llegamos a Los Ángeles y nos hospedamos en “el mejor hotel del mundo”: nuestro hostal. Cama separada, una cortina que nos dividía, que corríamos solo para podernos ver.
+
+Comíamos maruchan, sobrevivíamos con poco, pero estábamos juntos. Y eso lo hacía todo suficiente.
+
+Nuestra misión era clara: conseguir un carro.
+Solo queríamos uno en especial: un Audi Q7. Pasábamos horas viendo opciones por internet. La primera vez casi lo compramos a una pareja rara que no nos dio nada de confianza. Nos dio miedo… y nos fuimos.
+
+También cumplimos un plan muy especial en Universal Studios. Ese día fue mágico.
+(<a href="#foto4">Foto 4</a>)
+
+Y luego, casi al final del día, probamos In-N-Out por primera vez. Esas hamburguesas quedaron marcadas para siempre en nuestra historia como las mejores del mundo.
+(<a href="#foto4">Foto 4</a>)
+
+Al final, cuando ya casi nos íbamos de Los Ángeles, apareció el carro. En un barrio que nos dio miedo, en un dealer que no se veía nada bonito… pero ahí estaba.
+Y lo logramos. Nuestro primer carro en este país.
+(<a href="#foto5">Foto 5</a>)
+
+⸻
+
+🛣️ Capítulo 5: Treinta horas, muchos estados y un mismo sueño
+
+Ese carrito nos llevó por más de 30 horas de viaje hasta Sandusky, Ohio. Cruzamos estados, ciudades, desiertos, sueños… hasta conocimos Las Vegas en el camino.
+(<a href="#foto6">Foto 6</a>)
+
+Y lo más bonito de todo: tú manejaste por primera vez nuestro carro.
+(<a href="#foto7">Foto 7</a>)
+
+⸻
+
+🏨 Capítulo 6: Trabajo duro, risas y primeras fiestas
+
+Llegamos a Sandusky, donde mi hermana. A los pocos días ya estábamos en el Kalahari, en la despedida de año. Sin imaginar que ese lugar se convertiría en nuestra segunda casa por meses.
+(<a href="#foto8">Foto 8</a>)
+
+Luego vinieron nuestros primeros días de overtime en lavandería. Jornadas largas, cansancio… pero juntos.
+(<a href="#foto9">Foto 9</a>)
+
+Pasó tu cumpleaños el 22 de diciembre. Sé que no fue el más especial, pero estuvimos juntos. Y te prometo que cada cumpleaños a partir de ahora será mejor.
+
+Vivimos nuestra primera Navidad apuñalando muñecos… y aun así fue nuestra.
+
+⸻
+
+🐶 Capítulo 7: Zoro llegó para cambiarnos la vida
+
+Con el tiempo sentíamos un vacío. Nos faltaba algo… hasta que llegó la idea de adoptar. Tú mirabas opciones, pero un perrito nos robó el corazón: Carlos. Obviamente ese nombre no se iba a quedar.
+
+Fui a verlo contigo… y sí, lo admito: a mí me gustó más que a ti.
+(<a href="#foto10">Foto 10</a>)
+
+Luego llegó el día de ir por él, con una llanta pinchada rumbo a Upper Sandusky. Y ahí estaba. Nuestro hijo. Lo llamamos Zoro, como mi personaje favorito de One Piece.
+(<a href="#foto11">Foto 11</a>)
+
+Lo vimos correr por Walmart mientras despinchábamos el carro. Desde ahí sabíamos que iba a cambiarlo todo.
+
+Y así fue. Zoro nos dio más amor, más unión, más familia. Lo llevamos a la playa, lo engordamos, lo cuidamos… hoy es parte de nosotros.
+(<a href="#foto12">Foto 12</a>)
+
+⸻
+
+🍟 Capítulo 8: McDonald’s, estrés, Karen y verano
+
+Entramos a trabajar a McDonald’s porque en el hotel no nos daban horas suficientes. Vivimos estrés, risas, peleas con Karen, mucha comida… y mucho amor.
+
+Luego llegó el verano. El verano que tanto esperábamos. Fuimos 32 veces a Cedar Point, desde mi cumpleaños hasta finales de octubre.
+(<a href="#foto13">Foto 13</a>)
+
+Jugamos golf, nos emborrachamos por primera vez en la casa con Zoro, íbamos a la playa, llegaron Deifilita y Pao a visitarnos, y compartimos momentos que se quedaron marcados para siempre. Fue un verano muy bonito, lleno de vida, risas y recuerdos que guardaremos para siempre.
+(<a href="#foto14">Foto 14</a>)
+
+También fuimos a Niágara, un viaje especial donde volvimos a disfrutar juntos de ese lugar tan bonito, pero esta vez como esposos, creando nuevos recuerdos que ahora solo nos pertenecen a nosotros.
+(<a href="#foto15">Foto 15</a>)
+
+⸻
+
+🎲 Capítulo 9: Las Vegas, amor y una segunda propuesta
+
+Viajamos a Las Vegas para celebrar nuestro amor. Fue uno de los viajes más especiales de nuestra vida. Vimos a Steve Aoki en primera fila, bailamos borrachos en Omnia, tomamos mil fotos, montamos cuatrimotos, apostamos… fuimos felices sin medida.
+(<a href="#foto16">Foto 16</a>)
+
+Y ahí, frente a una fuente hermosa, te pedí matrimonio por segunda vez. No te lo esperabas. Yo estaba muerto de los nervios. Pero lo hice con todo mi amor.
+(<a href="#foto17">Foto 17</a>)
+
+Volvimos a casa extrañando a nuestro hijo perruno.
+(<a href="#foto18">Foto 18</a>)
+
+⸻
+
+🚗 Capítulo 10: Soltar, crecer y seguir
+
+Pasamos momentos difíciles. Muy difíciles. Pero nada fue imposible porque siempre los enfrentamos juntos.
+
+Nos tocó despedirnos de nuestro carro. Fue duro. Nos acompañó por todo este camino. Le estaremos siempre agradecidos. Pero soltamos… y llegaron cosas mejores. Nuestro nuevo carro llegó para abrir otra etapa.
+(<a href="#foto19">Foto 19</a>)
+
+⸻
+
+💪 Capítulo 11: Nuevos trabajos, misma unión
+
+Luego cambiaron los trabajos. Tú entraste a Autoneum. Yo a la fábrica de moldes. Cambió la rutina. Ya no trabajamos juntos entre semana. Nos extrañamos. Valoramos más cada minuto.
+
+Aprecio tus almuerzos, nuestras noches de gimnasio, nuestras conversaciones agotados. Extraño cuando trabajábamos juntos en McDonald’s y en Kalahari, pero sé que esto es temporal… y que pronto volveremos a estar juntos también en eso.
+
+⸻
+
+❤️ Capítulo final: Un año contigo
+
+Hoy es 5 de diciembre.
+Un año exacto de habernos casado.
+
+Un año de viajes, miedos, risas, peleas, estrés, logros, pérdidas, sueños…
+Pero sobre todo: un año de elegirnos todos los días.
+
+Y si me preguntan qué quiero para el resto de mi vida, mi respuesta sigue siendo la misma de aquel día cuando te vi vestida de blanco:
+
+Tú. Para siempre. 💍❤️
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <section class="card fade-in delay-2" id="fotos">
+      <h2 class="gallery-title">Nuestra historia en fotos</h2>
+      <p class="gallery-sub">
+        Cada número de foto en el cuento corresponde a una de estas imágenes.
+        Solo renombra tus archivos como <strong>foto1.jpg</strong>, <strong>foto2.jpg</strong>, …, <strong>foto19.jpg</strong>
+        y ponlos en la misma carpeta que este archivo.
+      </p>
+
+      <div class="gallery-grid">
+        <div class="photo-card fade-in delay-1" id="foto1">
+          <div class="photo-inner">
+            <img src="foto1.jpg" alt="Foto 1">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 1 · El día que dijimos “sí”</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-2" id="foto2">
+          <div class="photo-inner">
+            <img src="foto2.jpg" alt="Foto 2">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 2 · Romeo y Spike</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-3" id="foto3">
+          <div class="photo-inner">
+            <img src="foto3.jpg" alt="Foto 3">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 3 · Aeropuerto y viaje</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-1" id="foto4">
+          <div class="photo-inner">
+            <img src="foto4.jpg" alt="Foto 4">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 4 · Universal e In-N-Out</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-2" id="foto5">
+          <div class="photo-inner">
+            <img src="foto5.jpg" alt="Foto 5">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 5 · Nuestro primer Audi</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-3" id="foto6">
+          <div class="photo-inner">
+            <img src="foto6.jpg" alt="Foto 6">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 6 · Las Vegas en el camino</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-1" id="foto7">
+          <div class="photo-inner">
+            <img src="foto7.jpg" alt="Foto 7">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 7 · Tú manejando por primera vez</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-2" id="foto8">
+          <div class="photo-inner">
+            <img src="foto8.jpg" alt="Foto 8">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 8 · Kalahari y Navidad</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-3" id="foto9">
+          <div class="photo-inner">
+            <img src="foto9.jpg" alt="Foto 9">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 9 · Overtime en lavandería</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-1" id="foto10">
+          <div class="photo-inner">
+            <img src="foto10.jpg" alt="Foto 10">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 10 · Conociendo a Zoro</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-2" id="foto11">
+          <div class="photo-inner">
+            <img src="foto11.jpg" alt="Foto 11">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 11 · Camino a casa</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-3" id="foto12">
+          <div class="photo-inner">
+            <img src="foto12.jpg" alt="Foto 12">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 12 · Zoro en familia</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-1" id="foto13">
+          <div class="photo-inner">
+            <img src="foto13.jpg" alt="Foto 13">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 13 · Cedar Point y verano</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-2" id="foto14">
+          <div class="photo-inner">
+            <img src="foto14.jpg" alt="Foto 14">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 14 · Familia y parque</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-3" id="foto15">
+          <div class="photo-inner">
+            <img src="foto15.jpg" alt="Foto 15">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 15 · Niágara juntos</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-1" id="foto16">
+          <div class="photo-inner">
+            <img src="foto16.jpg" alt="Foto 16">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 16 · Fiesta en Las Vegas</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-2" id="foto17">
+          <div class="photo-inner">
+            <img src="foto17.jpg" alt="Foto 17">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 17 · La segunda propuesta</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-3" id="foto18">
+          <div class="photo-inner">
+            <img src="foto18.jpg" alt="Foto 18">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 18 · Regreso con Zoro</span>
+          </div>
+        </div>
+
+        <div class="photo-card fade-in delay-1" id="foto19">
+          <div class="photo-inner">
+            <img src="foto19.jpg" alt="Foto 19">
+            <div class="photo-glow"></div>
+            <span class="photo-label">Foto 19 · Nuestro nuevo comienzo</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    Hecho con mucho amor para ti.  
+    &copy; 2024 · Nicolás &amp; Salomé
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.16 }
+    );
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
